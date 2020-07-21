@@ -20,7 +20,7 @@ table(Olympics$Sex)
 # then putting in it new df 
 str(newevent)
 Olympics$Sex <- as.numeric((Olympics$Sex))
-newevent <- subset(data[c("Sex", "Age","Height","Weight","Year","Medal")])
+newevent <- subset(data[c("Sex", "Age","Height","Weight","Year","Medal", "Sport")])
 newevent$Medal <- as.numeric(data$Medal)
 newevent$Year <- as.numeric(newdata$Year)
 View(newevent)
@@ -80,14 +80,15 @@ set.seed(1234)
 trainIndex3 <- createDataPartition(newevent$Medal, p = .7, list = FALSE)
 train3 <- newevent[ trainIndex3,]
 test3 <- newevent[-trainIndex3,]
-View(train3)
+View(train1)
 
 # model with multi lin regr with newevent data
-Model2 <- lm(Medal ~ Sex + Age + Height + Weight + Year, data=train3)
+Model2 <- multinom(Medal ~ Sex + Age + Height + Weight + Year + Sport, data=train1)
 summary(Model2)
 
-preds2 = predict(Model2, test3)
+preds2 = predict(Model2, test1)
 preds2
+table(preds2)
 View(preds2)
 plot()
 
@@ -97,13 +98,13 @@ set.seed(1234)
 trainIndex4 <- createDataPartition(Olympics$Medal, p = .7, list = FALSE)
 train4 <- Olympics[ trainIndex4,]
 test4 <- Olympics[-trainIndex4,]
-View(train)
+View(tra)
 
 ## logistic regression model
-mylogit <- glm(Medal ~  Sex + Age + Height + Weight + Year, data=train4)
+mylogit <- glm(Medal ~  Sex + Age + Height + Weight + Year, data=train1)
 
-preds4 = predict(mylogit, test4)
-preds4
+preds4 = predict(mylogit, test1)
+table(preds4)
 View(preds4)
 plot()
 
